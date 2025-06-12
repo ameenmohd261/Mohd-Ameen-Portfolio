@@ -1,0 +1,95 @@
+/**
+ * Portfolio Theme CSS
+ * Author: AmeenDev
+ * Date: 2025-06-11
+ * 
+ * This file contains theme-related styles for day/night mode
+ */
+
+/* ===== Light Mode (Day) ===== */
+
+.light {
+  --background-primary: #ffffff;
+  --background-secondary: #f8fafc;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #60a5fa;
+  --border-color: #e2e8f0;
+  --card-bg: #ffffff;
+  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --gradient-bg: linear-gradient(135deg, #eff6ff 0%, #f1f5f9 100%);
+  --nav-bg: rgba(255, 255, 255, 0.8);
+  --footer-bg: #f1f5f9;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+}
+
+/* Day mode specific styles */
+.light .sun-element {
+  display: block;
+}
+
+.light .moon-element {
+  display: none;
+}
+
+.light .hero-gradient {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+}
+
+.light .card-hover:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.light .section-divider {
+  background-image: linear-gradient(90deg, transparent, #3b82f6, transparent);
+}
+
+/* ===== Dark Mode (Night) ===== */
+
+.dark {
+  --background-primary: #0f172a;
+  --background-secondary: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #60a5fa;
+  --border-color: #334155;
+  --card-bg: #1e293b;
+  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --nav-bg: rgba(15, 23, 42, 0.8);
+  --footer-bg: #0f172a;
+  --input-bg: #0f172a;
+  --input-border: #334155;
+}
+
+/* Night mode specific styles */
+.dark .moon-element {
+  display: block;
+}
+
+.dark .sun-element {
+  display: none;
+}
+
+.dark .hero-gradient {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.dark .section-divider {
+  background-image: linear-gradient(90deg, transparent, #3b82f6, transparent);
+}
+
+/* Common theme transition */
+.theme-transition {
+  transition: background-color 0.5s ease, 
+              color 0.5s ease, 
+              border-color 0.5s ease, 
+              box-shadow 0.5s ease;
+}
