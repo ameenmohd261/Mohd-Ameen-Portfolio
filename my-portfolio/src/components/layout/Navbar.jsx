@@ -75,7 +75,7 @@ const Navbar = () => {
             className="flex-shrink-0"
           >
             <a href="#home" className="text-xl md:text-2xl font-bold tracking-tighter">
-              AMEEN<span className="text-blue-500">DEV</span>
+              MOHD<span className="text-blue-500">AMEEN</span>
             </a>
           </motion.div>
 

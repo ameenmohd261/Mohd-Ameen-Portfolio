@@ -137,8 +137,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-medium mb-1">Email</h4>
-                  <a href="mailto:contact@ameendev.com" className="text-blue-500 hover:underline">
-                    contact@ameendev.com
+                  <a href="mailto:official.mohd.ameen.siddiqui@gmail.com" className="text-blue-500 hover:underline">
+                    official.mohd.ameen.siddiqui@gmail.com
                   </a>
                 </div>
               </div>
@@ -151,7 +151,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-medium mb-1">Location</h4>
-                  <p>New York, United States</p>
+                  <p>New Delhi, India</p>
                 </div>
               </div>
             </div>

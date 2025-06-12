@@ -6,11 +6,18 @@ const Footer = () => {
   const { theme } = useTheme();
   const currentYear = new Date().getFullYear();
 
+  const navItems = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Projects', href: '/projects' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
   const socialLinks = [
     { name: 'GitHub', icon: 'github', url: 'https://github.com/ameenmohd261' },
-    { name: 'LinkedIn', icon: 'linkedin', url: '#' },
-    { name: 'Twitter', icon: 'twitter', url: '#' },
-    { name: 'Instagram', icon: 'instagram', url: '#' },
+    { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/in/mohd-ameen-sde' },
+    { name: 'Twitter', icon: 'twitter', url: 'https://x.com/MohdAme12528440' },
+    { name: 'Instagram', icon: 'instagram', url: 'https://www.instagram.com/siddqui_ameen' },
   ];
 
   const iconMap = {
@@ -86,14 +93,14 @@ const Footer = () => {
               ))}
             </div>
             <p className={`text-sm ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>
-              Email: contact@ameendev.com
+              Email: official.mohd.ameen.siddiqui@gmail.com
             </p>
           </div>
         </div>
         
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
           <p className={`text-sm ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>
-            © {currentYear} AmeenDev. All rights reserved.
+            © {currentYear} Mohd Ameen. All rights reserved.
           </p>
         </div>
       </div>

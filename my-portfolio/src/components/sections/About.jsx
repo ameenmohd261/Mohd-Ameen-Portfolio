@@ -44,24 +44,24 @@ const About = () => {
 
   const timelineData = [
     {
-      year: '2023 - Present',
-      title: 'Senior Frontend Developer',
+      year: '2024 - Present',
+      title: 'Full Stack Developer',
       description: 'Leading frontend development on React-based web applications with a focus on performance optimization and user experience improvement.'
     },
     {
-      year: '2021 - 2023',
+      year: '2023 - 2024',
+      title: 'Freelance Web Developer',
+      description: 'Worked with various clients to build custom websites and web applications, honing skills in both design and development.'
+    },
+    {
+      year: '2022 - 2023',
       title: 'Frontend Developer',
       description: 'Developed responsive and interactive user interfaces using modern JavaScript frameworks like React and Vue.js.'
     },
     {
-      year: '2019 - 2021',
+      year: '2021 - 2022',
       title: 'Web Designer & Developer',
       description: 'Created visually appealing and functional websites with a focus on UI/UX design and frontend development.'
-    },
-    {
-      year: '2017 - 2019',
-      title: 'Freelance Web Developer',
-      description: 'Worked with various clients to build custom websites and web applications, honing skills in both design and development.'
     },
   ];
 

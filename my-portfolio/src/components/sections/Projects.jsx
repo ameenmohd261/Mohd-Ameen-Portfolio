@@ -4,6 +4,7 @@ import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 import { useTheme } from '../../hooks/useTheme';
 
 const projectsData = [
+
   {
     id: 1,
     title: 'E-Commerce Dashboard',
@@ -64,6 +65,27 @@ const projectsData = [
     codeUrl: '#',
     category: 'web'
   },
+  {
+    id: 7,
+    title: 'Code-Quest',
+    description: 'Code Quest is a MERN stack-based web application designed as a college coding competition platform. It features role-based access for admins, faculty, and students, allowing seamless contest creation, participation, and result tracking. Built to simulate real-world competitive programming environments.',
+    image: 'https://plus.unsplash.com/premium_photo-1663100722417-6e36673fe0ed?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['React', 'Node.js', 'competition web', 'MongoDB'],
+    demoUrl: '#',
+    codeUrl: '#',
+    category: 'web'
+  },
+  {
+    id: 8,
+    title: 'TravAura',
+    description: 'Tavaura is a React-based travel discovery app that helps users explore famous tourist destinations. With an interactive UI and intuitive search features, Tavaura offers recommendations based on location, popularity, and interest, making trip planning smarter and easier.',
+    image: 'https://images.unsplash.com/photo-1583452924150-c86772c4fab6?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['React', 'Node.js', 'Traveling web', 'MongoDB'],
+    demoUrl: '#',
+    codeUrl: '#',
+    category: 'web'
+  },
+
 ];
 
 const ProjectCard = ({ project, theme }) => {
