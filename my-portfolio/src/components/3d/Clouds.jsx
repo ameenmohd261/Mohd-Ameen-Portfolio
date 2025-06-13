@@ -27,36 +27,59 @@ const Cloud = ({ position, scale, speed, rotationSpeed }) => {
       position={position}
       scale={scale}
     >
-      <Sphere args={[1, 16, 16]} position={[0, 0, 0]}>
+      {/* Main cloud parts with improved materials */}
+      <Sphere args={[1, 24, 24]} position={[0, 0, 0]}>
         <meshStandardMaterial
-          color="#FFFFFF"
+          color="#f0f0f0"
           transparent={true}
-          opacity={0.7}
-          roughness={1}
+          opacity={0.85}
+          roughness={0.8}
+          metalness={0.1}
+          envMapIntensity={1.5}
         />
       </Sphere>
-      <Sphere args={[0.8, 16, 16]} position={[1, 0, 0]}>
+      <Sphere args={[0.8, 24, 24]} position={[1, 0, 0]}>
         <meshStandardMaterial
-          color="#FFFFFF"
+          color="#ffffff"
           transparent={true}
-          opacity={0.7}
-          roughness={1}
+          opacity={0.8}
+          roughness={0.7}
+          metalness={0.1}
         />
       </Sphere>
-      <Sphere args={[0.7, 16, 16]} position={[-1, 0.2, 0]}>
+      <Sphere args={[0.7, 24, 24]} position={[-1, 0.2, 0]}>
         <meshStandardMaterial
-          color="#FFFFFF"
+          color="#f8f8f8"
           transparent={true}
-          opacity={0.7}
-          roughness={1}
+          opacity={0.8}
+          roughness={0.75}
+          metalness={0.1}
         />
       </Sphere>
-      <Sphere args={[0.6, 16, 16]} position={[0, 0.5, 0.5]}>
+      <Sphere args={[0.6, 24, 24]} position={[0, 0.5, 0.5]}>
         <meshStandardMaterial
-          color="#FFFFFF"
+          color="#ffffff"
+          transparent={true}
+          opacity={0.75}
+          roughness={0.7}
+          metalness={0.1}
+        />
+      </Sphere>
+      {/* Additional cloud puffs for more complex shape */}
+      <Sphere args={[0.65, 20, 20]} position={[0.5, -0.3, 0.4]}>
+        <meshStandardMaterial
+          color="#f0f0f0"
           transparent={true}
           opacity={0.7}
-          roughness={1}
+          roughness={0.8}
+        />
+      </Sphere>
+      <Sphere args={[0.55, 20, 20]} position={[-0.7, -0.2, -0.3]}>
+        <meshStandardMaterial
+          color="#ffffff"
+          transparent={true}
+          opacity={0.7}
+          roughness={0.85}
         />
       </Sphere>
     </group>
@@ -94,8 +117,32 @@ const Clouds = ({ count = 15 }) => {
         />
       ))}
       
-      {/* Add ambient light for better cloud visibility */}
-      <ambientLight intensity={0.8} />
+      {/* Enhanced lighting with sun */}
+      <ambientLight intensity={0.4} color="#e0f2ff" />
+      <directionalLight 
+        position={[15, 10, 5]} 
+        intensity={1.2} 
+        color="#fffaed" 
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+      />
+      
+      {/* Sun model */}
+      <mesh position={[15, 10, 5]}>
+        <sphereGeometry args={[2, 32, 32]} />
+        <meshBasicMaterial color="#fff9c4" />
+        <pointLight color="#ffb74d" intensity={2} distance={100} decay={2} />
+        <group>
+          {/* Sun glow effect */}
+          <Sphere args={[3, 24, 24]} position={[0, 0, 0]}>
+            <meshBasicMaterial color="#ffecb3" transparent={true} opacity={0.3} />
+          </Sphere>
+          <Sphere args={[4, 20, 20]} position={[0, 0, 0]}>
+            <meshBasicMaterial color="#ffecb3" transparent={true} opacity={0.15} />
+          </Sphere>
+        </group>
+      </mesh>
     </group>
   );
 };

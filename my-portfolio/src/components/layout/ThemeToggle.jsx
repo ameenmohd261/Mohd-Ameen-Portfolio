@@ -10,6 +10,39 @@ const ThemeToggle = () => {
     stiffness: 700,
     damping: 30
   };
+  // Define background variants for animation
+  const backgroundVariants = {
+    light: { 
+      backgroundColor: '#f8f9fa',
+      boxShadow: '0 0 15px rgba(0, 0, 0, 0.1)'
+    },
+    dark: { 
+      backgroundColor: '#2d3748',
+      boxShadow: '0 0 15px rgba(255, 255, 255, 0.1)'
+    }
+  };
+
+  // State for tracking mouse position
+  const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
+
+  // Function to handle mouse move
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = clientX - left;
+    const y = clientY - top;
+    
+    setMousePosition({ 
+      x: (x / width) * 100, 
+      y: (y / height) * 100 
+    });
+  };
+
+  // Hover effect for the button
+  const hoverVariants = {
+    initial: { scale: 1 },
+    hover: { scale: 1.1 }
+  };
 
   return (
     <div className="theme-toggle">
