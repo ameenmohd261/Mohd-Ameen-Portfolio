@@ -66,7 +66,7 @@ const About = () => {
   ];
 
   const skillsData = [
-    'JavaScript (ES6+)', 'React.js', 'Next.js', 'TypeScript', 
+    'JavaScript (ES6+)', 'React.js', 'Next.js', 'AI Integration', 
     'HTML5/CSS3', 'Tailwind CSS', 'Framer Motion', 'Three.js',
     'UI/UX Design', 'Responsive Design', 'Git', 'Node.js'
   ];

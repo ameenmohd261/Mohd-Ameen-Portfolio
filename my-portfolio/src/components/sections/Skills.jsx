@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, Box, Sphere, useTexture, OrbitControls, Stars } from '@react-three/drei';
 import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
@@ -10,36 +10,36 @@ const skillsData = [
   {
     category: "Frontend",
     skills: [
-      { name: "React.js", level: 95 },
-      { name: "JavaScript", level: 90 },
-      { name: "HTML/CSS", level: 95 },
-      { name: "Tailwind CSS", level: 85 },
-      { name: "TypeScript", level: 80 }
+      { name: "React.js", level: 95, icon: "/icons/react.png" },
+      { name: "JavaScript", level: 90, icon: "/icons/javascript.png" },
+      { name: "HTML/CSS", level: 95, icon: "/icons/html-css.png" },
+      { name: "Tailwind CSS", level: 85, icon: "/icons/tailwind.png" },
+      { name: "TypeScript", level: 80, icon: "/icons/typescript.png" }
     ]
   },
   {
     category: "Animation & 3D",
     skills: [
-      { name: "Framer Motion", level: 90 },
-      { name: "Three.js", level: 75 },
-      { name: "GSAP", level: 80 },
-      { name: "WebGL", level: 65 },
-      { name: "CSS Animations", level: 85 }
+      { name: "Framer Motion", level: 90, icon: "/icons/framer.png" },
+      { name: "Three.js", level: 75, icon: "/icons/threejs.png" },
+      { name: "GSAP", level: 80, icon: "/icons/gsap.png" },
+      { name: "WebGL", level: 65, icon: "/icons/webgl.png" },
+      { name: "CSS Animations", level: 85, icon: "/icons/css-animation.png" }
     ]
   },
   {
     category: "Backend & Tools",
     skills: [
-      { name: "Node.js", level: 70 },
-      { name: "MongoDB", level: 75 },
-      { name: "Git", level: 85 },
-      { name: "Firebase", level: 80 },
-      { name: "RESTful APIs", level: 85 }
+      { name: "Node.js", level: 70, icon: "/icons/nodejs.png" },
+      { name: "MongoDB", level: 75, icon: "/icons/mongodb.png" },
+      { name: "Git", level: 85, icon: "/icons/git.png" },
+      { name: "Firebase", level: 80, icon: "/icons/firebase.png" },
+      { name: "RESTful APIs", level: 85, icon: "/icons/api.png" }
     ]
   }
 ];
 
-// 3D Skill Sphere component
+// 3D Skill Sphere component with image texture
 const SkillSphere = ({ skill, index, total, active }) => {
   const radius = 5;
   // Calculate positions in a better spherical distribution
@@ -53,19 +53,23 @@ const SkillSphere = ({ skill, index, total, active }) => {
   ];
   
   // Add animation and interactivity
-  const [hovered, setHovered] = React.useState(false);
-  const sphereRef = React.useRef();
-  const textRef = React.useRef();
+  const [hovered, setHovered] = useState(false);
+  const sphereRef = useRef();
+  const textRef = useRef();
   
-  React.useEffect(() => {
+  // Load texture for the skill icon
+  const texture = useTexture(skill.icon);
+  
+  useFrame((state) => {
     if (sphereRef.current) {
       // Gentle floating animation
-      const interval = setInterval(() => {
-        sphereRef.current.position.y += Math.sin(Date.now() * 0.001) * 0.005;
-      }, 10);
-      return () => clearInterval(interval);
+      sphereRef.current.position.y += Math.sin(state.clock.elapsedTime * 0.5) * 0.005;
+      
+      // Subtle rotation for the sphere
+      sphereRef.current.rotation.y += 0.003;
+      sphereRef.current.rotation.x += 0.001;
     }
-  }, []);
+  });
   
   return (
     <group position={position}>
@@ -76,6 +80,7 @@ const SkillSphere = ({ skill, index, total, active }) => {
         onPointerOut={() => setHovered(false)}
       >
         <meshPhysicalMaterial 
+          map={texture}
           color={hovered || active ? "#3B82F6" : "#94A3B8"} 
           emissive={hovered || active ? "#3B82F6" : "#475569"}
           emissiveIntensity={hovered ? 0.8 : active ? 0.5 : 0.2}
@@ -83,12 +88,12 @@ const SkillSphere = ({ skill, index, total, active }) => {
           metalness={0.9}
           clearcoat={1}
           clearcoatRoughness={0.1}
-          envMapIntensity={0.5}
+          envMapIntensity={0.8}
         />
       </Sphere>
       <Text
         ref={textRef}
-        position={[0, 0, 0.6]}
+        position={[0, 0, 0.7]}
         fontSize={0.4}
         color={hovered ? "#FFFFFF" : active ? "#F0F9FF" : "#CBD5E1"}
         anchorX="center"
@@ -100,7 +105,7 @@ const SkillSphere = ({ skill, index, total, active }) => {
         {skill.name}
       </Text>
       <Text
-        position={[0, -0.5, 0.6]}
+        position={[0, -0.5, 0.7]}
         fontSize={0.25}
         color={hovered ? "#FFFFFF" : "#94A3B8"}
         anchorX="center"
@@ -114,89 +119,38 @@ const SkillSphere = ({ skill, index, total, active }) => {
   );
 };
 
+// FloatingBubbles component for decoration
+/* This component was defined twice - removing this first instance */
 
-
-// 3D Skills Visualization
-// Animated 3D Skills Visualization
-const SkillsScene3D = ({ skills }) => {
-  const [hoveredSkill, setHoveredSkill] = useState(null);
-  
-  return (
-    <Canvas
-      camera={{ position: [0, 0, 15], fov: 60 }}
-      dpr={[1, 2]}
-      shadows
-      gl={{ antialias: true, alpha: true }}
-      style={{ background: "linear-gradient(180deg, #111827 0%, #0F172A 100%)" }}
-    >
-      <fog attach="fog" args={['#0C1E39', 15, 25]} />
-      <ambientLight intensity={0.4} />
-      
-      {/* Moving lighting for dramatic effect */}
-      <directionalLight 
-        position={[5, 5, 5]} 
-        intensity={0.5} 
-        castShadow 
-        shadow-mapSize-width={1024} 
-        shadow-mapSize-height={1024} 
-      />
-      
-      <EffectComposer>
-        <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} />
-        <Noise opacity={0.02} />
-      </EffectComposer>
-      
-      <OrbitControls 
-        enableZoom={false} 
-        enablePan={false}
-        autoRotate 
-        autoRotateSpeed={0.5}
-        minPolarAngle={Math.PI/4}
-        maxPolarAngle={Math.PI/1.5}
-      />
-      
-      <SkillsScene>
-        {skills.map((skill, index) => (
-          <SkillSphere 
-            key={skill.name}
-            skill={skill}
-            index={index}
-            total={skills.length}
-            active={hoveredSkill === skill.name}
-            onHover={() => setHoveredSkill(skill.name)}
-            onLeave={() => setHoveredSkill(null)}
-          />
-        ))}
-        <FloatingBubbles count={20} />
-      </SkillsScene>
-      
-      <Stars radius={50} depth={50} count={1000} factor={4} fade speed={1} />
-    </Canvas>
-  );
-};
 const FloatingBubbles = ({ count = 15 }) => {
-  const bubbleRefs = React.useRef([]);
+  const bubbleRefs = useRef([]);
+  const texturePaths = [
+    "/icons/code.png",
+    "/icons/atom.png",
+    "/icons/web.png",
+    "/icons/design.png",
+    "/icons/data.png",
+  ];
   
-  React.useEffect(() => {
-    const animate = () => {
-      bubbleRefs.current.forEach((bubble, i) => {
-        if (bubble) {
-          // Create different floating patterns for each bubble
-          bubble.position.y += Math.sin(Date.now() * 0.0008 + i) * 0.01;
-          bubble.position.x += Math.cos(Date.now() * 0.001 + i * 0.5) * 0.005;
-          bubble.position.z += Math.sin(Date.now() * 0.0006 + i * 0.3) * 0.008;
-          
-          // Subtle rotation
-          bubble.rotation.x += 0.001;
-          bubble.rotation.y += 0.002;
-          bubble.rotation.z += 0.0005;
-        }
-      });
-    };
-    
-    const animationId = setInterval(animate, 16);
-    return () => clearInterval(animationId);
-  }, []);
+  // Load all textures at component level
+  const loadedTextures = useTexture(texturePaths);
+  
+  useFrame((state) => {
+    bubbleRefs.current.forEach((bubble, i) => {
+      if (bubble) {
+        // Create different floating patterns for each bubble
+        const t = state.clock.elapsedTime;
+        bubble.position.y += Math.sin(t * 0.8 + i) * 0.01;
+        bubble.position.x += Math.cos(t * 1.0 + i * 0.5) * 0.005;
+        bubble.position.z += Math.sin(t * 0.6 + i * 0.3) * 0.008;
+        
+        // Subtle rotation
+        bubble.rotation.x += 0.001;
+        bubble.rotation.y += 0.002;
+        bubble.rotation.z += 0.0005;
+      }
+    });
+  });
 
   return (
     <>
@@ -206,14 +160,17 @@ const FloatingBubbles = ({ count = 15 }) => {
         const posY = (Math.random() - 0.5) * 12;
         const posZ = (Math.random() - 0.5) * 8;
         const size = 0.3 + Math.random() * 0.8;
+        const textureIndex = i % texturePaths.length;
+        const texture = loadedTextures[textureIndex];
         
         return (
           <group key={i} position={[posX, posY, posZ]} ref={el => bubbleRefs.current[i] = el}>
             <Sphere args={[size, 32, 32]}>
               <meshPhysicalMaterial
+                map={texture}
                 color={`hsl(${(i * 30) % 360}, 70%, 60%)`}
                 transparent
-                opacity={0.7}
+                opacity={0.9}
                 roughness={0.1}
                 metalness={0.8}
                 clearcoat={1}
@@ -241,17 +198,11 @@ const FloatingBubbles = ({ count = 15 }) => {
     </>
   );
 };
+
 const SkillsScene = ({ children }) => {
   const [rotation, setRotation] = useState([0, 0, 0]);
+  const groupRef = useRef();
   
-  // Auto-rotation effect
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setRotation(prev => [prev[0], prev[1] + 0.001, prev[2]]);
-    }, 16);
-    return () => clearInterval(timer);
-  }, []);
-
   // Handle mouse interaction
   const handlePointerMove = (event) => {
     const { clientX, clientY } = event;
@@ -260,16 +211,27 @@ const SkillsScene = ({ children }) => {
     setRotation([moveY * 0.5, rotation[1], -moveX * 0.5]);
   };
 
+  useFrame((state) => {
+    if (groupRef.current) {
+      // Smooth auto-rotation
+      groupRef.current.rotation.y += 0.001;
+      
+      // Apply interaction-based rotation with damping
+      groupRef.current.rotation.x += (rotation[0] - groupRef.current.rotation.x) * 0.05;
+      groupRef.current.rotation.z += (rotation[2] - groupRef.current.rotation.z) * 0.05;
+    }
+  });
+
   return (
     <group 
-      rotation={rotation} 
+      ref={groupRef}
       onPointerMove={handlePointerMove}
       onPointerLeave={() => setRotation([0, rotation[1], 0])}
     >
       {children}
       
       {/* Central glowing core */}
-      <Sphere args={[1.2, 24, 24]} position={[0, 0, 0]}>
+      <Sphere args={[1.2, 32, 32]} position={[0, 0, 0]}>
         <meshPhysicalMaterial
           color="#1E40AF"
           emissive="#3B82F6"
@@ -281,22 +243,30 @@ const SkillsScene = ({ children }) => {
         />
       </Sphere>
       
-      {/* Connecting lines between skills */}
+      {/* Connecting lines between skills with small animated nodes */}
       <group>
-        {Array(30).fill().map((_, i) => (
-          <mesh key={i} position={[
+        {Array(30).fill().map((_, i) => {
+          const position = [
             Math.sin(i * 0.5) * 3,
             Math.cos(i * 0.7) * 3,
             Math.sin(i * 0.3) * 3
-          ]}>
-            <sphereGeometry args={[0.05, 8, 8]} />
-            <meshBasicMaterial color="#60A5FA" transparent opacity={0.5} />
-          </mesh>
-        ))}
+          ];
+          
+          return (
+            <mesh 
+              key={i} 
+              position={position}
+            >
+              <sphereGeometry args={[0.08, 16, 16]} />
+              <meshBasicMaterial color="#60A5FA" transparent opacity={0.7} />
+            </mesh>
+          );
+        })}
       </group>
     </group>
   );
 };
+
 const SkillsVisualization = ({ activeCategory }) => {
   const filteredSkills = skillsData.find(category => category.category === activeCategory).skills;
   
@@ -315,28 +285,33 @@ const SkillsVisualization = ({ activeCategory }) => {
           />
         ))}
       </group>
-      <Box args={[15, 15, 15]} position={[0, 0, 0]}>
-        <meshBasicMaterial color="#000000" opacity={0} transparent />
-      </Box>
+      <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
     </Canvas>
   );
 };
 
-// Skill Meter component
+// Skill Meter component with icon
 const SkillMeter = ({ skill, theme }) => {
   const { ref, controls, inView } = useScrollAnimation(0.1);
 
   return (
     <div ref={ref} className="mb-6">
-      <div className="flex justify-between mb-1">
-        <span className={`font-medium ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
-          {skill.name}
-        </span>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-3">
+          <img 
+            src={skill.icon} 
+            alt={skill.name}
+            className="w-8 h-8 object-contain"
+          />
+          <span className={`font-medium ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
+            {skill.name}
+          </span>
+        </div>
         <span className={`${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>
           {skill.level}%
         </span>
       </div>
-      <div className={`h-2 rounded-full ${theme === 'light' ? 'bg-gray-200' : 'bg-gray-700'}`}>
+      <div className={`h-3 rounded-full ${theme === 'light' ? 'bg-gray-200' : 'bg-gray-700'} overflow-hidden`}>
         <motion.div
           initial="hidden"
           animate={controls}
@@ -344,11 +319,26 @@ const SkillMeter = ({ skill, theme }) => {
             hidden: { width: '0%' },
             visible: { 
               width: `${skill.level}%`,
-              transition: { duration: 1, ease: "easeOut" }
+              transition: { duration: 1.2, ease: "easeOut" }
             }
           }}
-          className="h-full rounded-full bg-blue-500"
-        ></motion.div>
+          className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-600 relative"
+        >
+          <motion.div 
+            className="absolute inset-0 opacity-50"
+            animate={{
+              background: [
+                'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%)',
+                'linear-gradient(90deg, transparent 100%, rgba(255,255,255,0.5) 150%, transparent 200%)',
+              ],
+              transition: {
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }
+            }}
+          />
+        </motion.div>
       </div>
     </div>
   );
@@ -387,7 +377,7 @@ const Skills = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* 3D Visualization */}
           <motion.div 
-            className="h-[500px] lg:h-auto rounded-xl overflow-hidden shadow-lg"
+            className="h-[500px] lg:h-auto rounded-xl overflow-hidden shadow-xl"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -439,12 +429,21 @@ const Skills = () => {
                 {activeCategory}
               </h3>
               
-              {skillsData
-                .find(category => category.category === activeCategory)
-                .skills.map(skill => (
-                  <SkillMeter key={skill.name} skill={skill} theme={theme} />
-                ))
-              }
+              <div className="space-y-6">
+                {skillsData
+                  .find(category => category.category === activeCategory)
+                  .skills.map((skill, index) => (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      <SkillMeter skill={skill} theme={theme} />
+                    </motion.div>
+                  ))
+                }
+              </div>
             </div>
           </motion.div>
         </div>

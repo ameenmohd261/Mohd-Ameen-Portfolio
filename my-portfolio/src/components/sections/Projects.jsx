@@ -7,8 +7,8 @@ const projectsData = [
 
   {
     id: 1,
-    title: 'E-Commerce Dashboard',
-    description: 'A comprehensive dashboard for online stores with sales analytics, inventory management, and customer insights.',
+    title: 'Buyzaar [E-Commerce Dashboard]',
+    description: 'Buyzaar is a next-gen AI-powered fashion e-commerce platform offering 3D body scanning, virtual try-ons, and personalized clothing recommendations for a confident and immersive shopping experience.',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGRhc2hib2FyZHxlbnwwfHwwfHx8MA%3D%3D',
     tags: ['React', 'Redux', 'Chart.js', 'Tailwind CSS'],
     demoUrl: '#',

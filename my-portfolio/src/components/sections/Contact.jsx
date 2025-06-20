@@ -59,9 +59,9 @@ const Contact = () => {
 
   const socialLinks = [
     { name: 'GitHub', icon: 'github', url: 'https://github.com/ameenmohd261' },
-    { name: 'LinkedIn', icon: 'linkedin', url: '#' },
-    { name: 'Twitter', icon: 'twitter', url: '#' },
-    { name: 'Instagram', icon: 'instagram', url: '#' },
+    { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/in/mohd-ameen-sde' },
+    { name: 'Twitter', icon: 'twitter', url: 'https://x.com/MohdAme12528440' },
+    { name: 'Instagram', icon: 'instagram', url: 'https://www.instagram.com/siddqui_ameen' },
   ];
 
   const iconMap = {
@@ -248,7 +248,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className={inputClasses}
-                    placeholder="John Doe"
+                    placeholder="Full Name"
                   />
                 </div>
                 
@@ -264,7 +264,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className={inputClasses}
-                    placeholder="john@example.com"
+                    placeholder="name@example.com"
                   />
                 </div>
                 
